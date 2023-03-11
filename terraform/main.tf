@@ -34,6 +34,6 @@ resource "google_project_service" "project" {
 resource "google_artifact_registry_repository" "npm" {
   project       = local.project_id
   location      = local.region
-  repository_id = "repo1"
+  repository_id = "npm"
   format        = "NPM"
 }
