@@ -21,8 +21,13 @@ locals {
   zone       = "europe-west4-a"
 }
 
-resource "google_project_service" "project" {
+provider "google" {
   project = local.project_id
+  region  = local.region
+  zone    = local.zone
+}
+
+resource "google_project_service" "project" {
   service = "artifactregistry.googleapis.com"
 }
 
