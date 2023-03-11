@@ -32,6 +32,6 @@ resource "google_project_service" "project" {
 }
 
 resource "google_artifact_registry_repository" "npm" {
-  repository_id = "npm-repository"
+  repository_id = "repo1"
   format        = "npm"
 }
