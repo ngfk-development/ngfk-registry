@@ -26,9 +26,7 @@ resource "google_project_service" "project" {
   service = "artifactregistry.googleapis.com"
 }
 
-# resource "google_artifact_registry_repository" "npm-repository" {
-#   location      = "us-central1"
-#   repository_id = "npm"
-#   description   = "example docker repository"
-#   format        = "DOCKER"
-# }
+resource "google_artifact_registry_repository" "npm-repository" {
+  repository_id = "npm"
+  format        = "npm"
+}
