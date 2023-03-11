@@ -26,7 +26,7 @@ resource "google_project_service" "project" {
   service = "artifactregistry.googleapis.com"
 }
 
-resource "google_artifact_registry_repository" "npm-repository" {
+resource "google_artifact_registry_repository" "npm" {
   repository_id = "npm"
-  format        = "npm"
+  format        = "NPM"
 }
