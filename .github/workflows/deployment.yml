@@ -11,7 +11,7 @@ env:
   NGINX_IMAGE: ${{ format('{0}:{1}', 'ngfk-registry/nginx', github.sha) }}
 
 jobs:
-  nginx_image:
+  docker_nginx:
     # if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     permissions:
@@ -43,6 +43,8 @@ jobs:
     permissions:
       contents: "read"
       id-token: "write"
+    needs:
+      - docker_nginx
     steps:
       - uses: actions/checkout@main
       - name: Authentication gcloud
@@ -79,4 +81,5 @@ jobs:
           -auto-approve
           -input=false
           -var="project_id=$GCP_PROJECT"
+          -var="nginx_image=$NGINX_IMAGE"
         working-directory: terraform

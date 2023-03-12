@@ -15,10 +15,17 @@ variable "project_id" {
   type = string
 }
 
+variable "nginx_image" {
+  type = string
+}
+
 locals {
   project_id = var.project_id
   region     = "europe-west4"
   zone       = "europe-west4-a"
+
+  nginx_image = var.nginx_image
+  npm_domain  = "npm.ngfk.dev"
 }
 
 provider "google" {
@@ -43,4 +50,39 @@ resource "google_artifact_registry_repository" "docker" {
   location      = local.region
   repository_id = "docker"
   format        = "DOCKER"
+}
+
+resource "google_cloud_run_v2_service" "nginx" {
+  name     = "nginx"
+  location = local.region
+  ingress  = "INGRESS_TRAFFIC_ALL"
+
+  template {
+    containers {
+      image = local.nginx_image
+    }
+
+    scaling {
+      min_instance_count = 0
+      max_instance_count = 1
+    }
+  }
+
+  traffic {
+    type    = "TRAFFIC_TARGET_ALLOCATION_TYPE_LATEST"
+    percent = 100
+  }
+}
+
+resource "google_cloud_run_domain_mapping" "npm" {
+  name     = local.npm_domain
+  location = local.region
+
+  metadata {
+    namespace = local.project_id
+  }
+
+  spec {
+    route_name = google_cloud_run_v2_service.nginx.name
+  }
 }
