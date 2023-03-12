@@ -81,5 +81,5 @@ jobs:
           -auto-approve
           -input=false
           -var="project_id=$GCP_PROJECT"
-          -var="nginx_image=$NGINX_IMAGE"
+          -var="nginx_image=europe-west4-docker.pkg.dev/$GCP_PROJECT/docker/$NGINX_IMAGE"
         working-directory: terraform
