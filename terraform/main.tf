@@ -37,3 +37,10 @@ resource "google_artifact_registry_repository" "npm" {
   repository_id = "npm"
   format        = "NPM"
 }
+
+resource "google_artifact_registry_repository" "docker" {
+  project       = local.project_id
+  location      = local.region
+  repository_id = "docker"
+  format        = "DOCKER"
+}
