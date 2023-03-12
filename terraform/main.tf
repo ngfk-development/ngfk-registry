@@ -34,7 +34,7 @@ provider "google" {
   zone    = local.zone
 }
 
-resource "google_project_service" "project" {
+resource "google_project_service" "artifactregistry" {
   service = "artifactregistry.googleapis.com"
 }
 
@@ -50,6 +50,10 @@ resource "google_artifact_registry_repository" "docker" {
   location      = local.region
   repository_id = "docker"
   format        = "DOCKER"
+}
+
+resource "google_project_service" "run" {
+  service = "run.googleapis.com"
 }
 
 resource "google_cloud_run_v2_service" "nginx" {
