@@ -90,3 +90,11 @@ resource "google_cloud_run_domain_mapping" "npm" {
     route_name = google_cloud_run_v2_service.nginx.name
   }
 }
+
+resource "google_cloud_run_v2_service_iam_binding" "public" {
+  project  = local.project_id
+  location = local.region
+  name     = google_cloud_run_v2_service.nginx.name
+  role     = "roles/run.invoker"
+  members  = ["allUsers"]
+}
