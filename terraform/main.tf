@@ -71,6 +71,11 @@ resource "google_cloud_run_v2_service" "verdaccio" {
       image = local.verdaccio_image
 
       env {
+        name  = "VERDACCIO_PORT"
+        value = 8080
+      }
+
+      env {
         name = "GITHUB_CLIENT_ID"
         value_source {
           secret_key_ref {

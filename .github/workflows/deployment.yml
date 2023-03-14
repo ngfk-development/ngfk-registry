@@ -11,7 +11,7 @@ env:
   VERDACCIO_IMAGE: ${{ format('{0}:{1}', 'ngfk-registry/verdaccio', github.sha) }}
 
 jobs:
-  docker_nginx:
+  docker_verdaccio:
     # if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     permissions:
@@ -44,7 +44,7 @@ jobs:
       contents: "read"
       id-token: "write"
     needs:
-      - docker_nginx
+      - docker_verdaccio
     steps:
       - uses: actions/checkout@main
       - name: Authentication gcloud
