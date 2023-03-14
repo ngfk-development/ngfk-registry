@@ -1,0 +1,41 @@
+storage: /verdaccio/storage/data
+plugins: /verdaccio/plugins
+
+auth:
+  github-oauth-ui:
+    org: my-org
+    client-id: GITHUB_CLIENT_ID
+    client-secret: GITHUB_CLIENT_SECRET
+    token: GITHUB_TOKEN
+
+middlewares:
+  github-oauth-ui:
+    enabled: true
+
+store:
+  google-cloud:
+    projectId: ngfk-registry
+    kind: verdaccio
+    bucket: ngfk-registry-npm-registry
+    resumable: false
+
+web:
+  enable: true
+  title: NPM - NGFK Development
+  primary_color: "#24292e"
+  logo: /verdaccio/assets/logo.png
+  favicon: /verdaccio/assets/favicon.ico
+  scope: ngfk
+  showInfo: false
+
+packages:
+  "@ngfk/config-*":
+    access: $all
+    publish: github/org/ngfk-development
+    unpublish: github/user/ngfk
+  "@ngfk/*":
+    access: github/org/ngfk-development
+    publish: github/org/ngfk-development
+    unpublish: github/user/ngfk
+
+log: { type: stdout, format: pretty, level: http }

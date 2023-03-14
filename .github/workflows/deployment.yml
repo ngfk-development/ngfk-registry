@@ -8,7 +8,7 @@ on:
 env:
   GCP_WIP_SA: github-actions@ngfk-registry.iam.gserviceaccount.com
   GCP_WIP: projects/219532496197/locations/global/workloadIdentityPools/github/providers/github-actions
-  NGINX_IMAGE: ${{ format('{0}:{1}', 'ngfk-registry/nginx', github.sha) }}
+  VERDACCIO_IMAGE: ${{ format('{0}:{1}', 'ngfk-registry/verdaccio', github.sha) }}
 
 jobs:
   docker_nginx:
@@ -33,11 +33,11 @@ jobs:
           username: "oauth2accesstoken"
           password: "${{ steps.auth.outputs.access_token }}"
       - name: Build docker image
-        run: docker build nginx -t $NGINX_IMAGE
+        run: docker build verdaccio -t $VERDACCIO_IMAGE
       - name: Tag docker image
-        run: docker tag $NGINX_IMAGE europe-west4-docker.pkg.dev/$GCP_PROJECT/docker/$NGINX_IMAGE
+        run: docker tag $VERDACCIO_IMAGE europe-west4-docker.pkg.dev/$GCP_PROJECT/docker/$VERDACCIO_IMAGE
       - name: Push docker image
-        run: docker push europe-west4-docker.pkg.dev/$GCP_PROJECT/docker/$NGINX_IMAGE
+        run: docker push europe-west4-docker.pkg.dev/$GCP_PROJECT/docker/$VERDACCIO_IMAGE
   terraform:
     runs-on: ubuntu-latest
     permissions:
@@ -81,5 +81,5 @@ jobs:
           -auto-approve
           -input=false
           -var="project_id=$GCP_PROJECT"
-          -var="nginx_image=europe-west4-docker.pkg.dev/$GCP_PROJECT/docker/$NGINX_IMAGE"
+          -var="verdaccio_image=europe-west4-docker.pkg.dev/$GCP_PROJECT/docker/$VERDACCIO_IMAGE"
         working-directory: terraform
