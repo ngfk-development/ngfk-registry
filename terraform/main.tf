@@ -57,13 +57,27 @@ resource "google_storage_bucket" "npm_registry" {
   location = local.region
 }
 
+resource "google_project_service" "firestore" {
+  project = local.project_id
+  service = "firestore.googleapis.com"
+}
+
+resource "google_firestore_database" "datastore" {
+  project     = local.project_id
+  name        = "(default)"
+  location_id = local.region
+  type        = "DATASTORE_MODE"
+  depends_on  = [google_project_service.firestore]
+}
+
 resource "google_cloud_run_v2_service" "verdaccio" {
   name     = "verdaccio"
   location = local.region
   ingress  = "INGRESS_TRAFFIC_ALL"
 
   depends_on = [
-    google_storage_bucket.npm_registry
+    google_storage_bucket.npm_registry,
+    google_firestore_database.datastore
   ]
 
   template {
