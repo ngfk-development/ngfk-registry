@@ -74,6 +74,7 @@ jobs:
           -no-color
           -input=false
           -var="project_id=$GCP_PROJECT"
+          -var="verdaccio_image=europe-west4-docker.pkg.dev/$GCP_PROJECT/docker/$VERDACCIO_IMAGE"
         working-directory: terraform
       - name: Terraform Apply
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
